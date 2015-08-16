@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="../Js/jquery.js"></script>
+    <script src="../Js/script.js"></script>
+    <script src="../Js/Table.js"></script>
+    <script src="../Js/TuringMachine.js"></script>
+</head>
+<body>
+
+    <div>
+        <table id="inputTable">
+            <tr>
+                <th>
+                   Estado atual
+                </th>
+                <th>
+                    Lê
+                </th>
+                <th>
+                    Escreve
+                </th>
+                <th>
+                    Movimenta
+                </th>
+                <th>
+                    Estado seguinte
+                </th>
+            </tr>
+            <tr>
+                <td><input name="actualState"></td>
+                <td><input name="read"></td>
+                <td><input name="write"></td>
+                <td><select name="goTo">
+                    <option value="right">Direita</option>
+                    <option value="left">Esquerda</option>
+                    <option value="stay">Não movimenta</option>
+                </select></td>
+                <td><input name="nextState"></td>
+            </tr>
+        </table>
+        <button id="removeRow">Remover</button>
+        <button id="addRow">Adicionar</button>
+        <br>
+        <br>
+        <lable>Fita</lable>
+        <input id="tape">
+        <lable>Primeiro estado</lable>
+        <input id="firstState">
+        <lable>Ultimo estado</lable>
+        <input id="lastState">
+        <lable>Alfabeto</lable>
+        <input id="alphabet">
+        <br>
+        <button id="execute">Executar</button>
+    </div>
+</body>
+</html>
