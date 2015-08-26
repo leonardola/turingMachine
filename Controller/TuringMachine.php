@@ -8,9 +8,8 @@
  */
 class TuringMachine {
 
-    private $turingMachine, $tape, $firstState;
+    private $turingMachine, $tape, $firstState, $tapePointer, $actualState, $lastState;
 
-    private $tapePointer, $actualState, $lastState;
 
     public function __construct($turingMachine, $tape, $firstState, $lastState){
         $this->turingMachine = $turingMachine;
@@ -27,7 +26,7 @@ class TuringMachine {
         while(true){
             $read = $this->readTape();
 
-            if($this->finishedReading($read)){
+            if($this->shouldHalt($read)){
                 break;
             }
 
@@ -68,14 +67,17 @@ class TuringMachine {
         return !isset($this->tape[$this->tapePointer]) || ((empty($this->tape[$this->tapePointer]) && $this->tape[$this->tapePointer] !== "0"));
     }
 
-    private function finishedReading($read){
-        if(!$read && $this->tapePointer > strlen($this->tape) - 1){
-            if($this->lastState == $this->actualState){
+    private function shouldHalt($read){
+
+        $data = $this->getPossibleReadForActualState();
+        if(!isset($this->getPossibleReadForActualState()[$read])){
+            if($this->actualState == $this->lastState){
                 return true;
             }else{
-                throw new \Exception("Machine did not halt on finish state");
+                throw new \Exception("Machine did not halt on end state");
             }
         }
+
         return false;
     }
 

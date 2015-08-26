@@ -8,13 +8,20 @@
 include('DataFormatter.php');
 include('TuringMachine.php');
 
+header('Content-Type: application/json');
+
 $tableData = $_POST['table'];
 $tape = $_POST['tape'];
 $firstState = $_POST['firstState'];
 $lastState = $_POST['lastState'];
 
 $turingMachineData = DataFormatter::getTuringMachineFromTableData($tableData);
-$turingMachine = new TuringMachine($turingMachineData, $tape, $firstState, $lastState);
-$processedTape = $turingMachine->execute();
+try{
+    $turingMachine = new TuringMachine($turingMachineData, $tape, $firstState, $lastState);
+    $processedTape = $turingMachine->execute();
+}catch (\Exception $e){
+    echo json_encode($e->getMessage());
+    return;
+}
 
-echo $processedTape;
+echo json_encode($processedTape);
