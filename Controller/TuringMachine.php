@@ -36,14 +36,14 @@ class TuringMachine {
             $this->gotToNextState($stateInfo);
         }
 
-        return $this->tape;
+        return implode("",$this->tape);
     }
 
     private function validateMachine(){
         if(empty($this->turingMachine)){
             throw new \Exception("Machine not found");
         }
-        if(empty($this->tape)){
+        if(empty($this->tape) && !isset($this->tape)){
             throw new \Exception("Machine does not contain tape");
         }
         if(empty($this->firstState) && $this->firstState !== "0"){
@@ -57,7 +57,7 @@ class TuringMachine {
     private function readTape(){
 
         if($this->isEndOfTape()){
-            return "";
+            return "0";
         }
 
         return $this->tape[$this->tapePointer];
@@ -70,7 +70,8 @@ class TuringMachine {
     private function shouldHalt($read){
 
         $data = $this->getPossibleReadForActualState();
-        if(!isset($this->getPossibleReadForActualState()[$read])){
+
+        if(!isset($data[$read])){
             if($this->actualState == $this->lastState){
                 return true;
             }else{
@@ -114,6 +115,9 @@ class TuringMachine {
     }
 
     private function getPossibleReadForActualState(){
-        return $this->turingMachine['actualState'][$this->actualState]['read'];
+        if(isset($this->turingMachine['actualState'][$this->actualState])){
+            return $this->turingMachine['actualState'][$this->actualState]['read'];
+        }
+        return array();
     }
 }
