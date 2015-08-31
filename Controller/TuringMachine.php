@@ -36,7 +36,7 @@ class TuringMachine {
             $this->gotToNextState($stateInfo);
         }
 
-        return implode("",$this->tape);
+        return $this->tape; //implode("",$this->tape);
     }
 
     private function validateMachine(){
@@ -57,7 +57,7 @@ class TuringMachine {
     private function readTape(){
 
         if($this->isEndOfTape()){
-            return "0";
+            return "$";
         }
 
         return $this->tape[$this->tapePointer];
