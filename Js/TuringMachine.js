@@ -3,7 +3,7 @@ var TuringMachine = (function (pub) {
     pub.getTuringMachine = function(){
         turingMachine = {};
 
-        turingMachine.table = Table.getData();
+        turingMachine.states = Table.getData();
         turingMachine.language = getAlphabet();
         turingMachine.tape = getTape();
         turingMachine.firstState = getFirstState();

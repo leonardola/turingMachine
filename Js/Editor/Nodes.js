@@ -10,7 +10,7 @@ var Node = (function(pub){
     pub.addNewNode = function () {
         lastId++;
 
-        $(".editor").append("<div id='node-id-"+lastId+"' class='node' node-id='"+lastId+"'><p>"+lastId+"</p></div>");
+        $(".editor").append("<div id='node-id-"+lastId+"' class='node' node-id='"+lastId+"'><input value='"+lastId+"'></input></div>");
 
         makeNodeDraggable(lastId);
         Relationship.addNode(lastId);

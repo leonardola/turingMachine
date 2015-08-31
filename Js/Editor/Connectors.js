@@ -10,15 +10,35 @@ var Connectors = (function(pub){
 
     pub.connectNodes = function (firstElementId,secondElementId) {
 
-        jsPlumb.connect({
+        var conn = jsPlumb.connect({
             source:firstElementId,
             target:secondElementId,
-            connector:["Straight"],
             endpoint:[ "Dot", {
                 radius:2
             }],
-            anchor:[ "Perimeter", { shape:"Circle" } ]
+            /*overlays:[
+                "Arrow"
+            ],*/
+            overlays:[
+                ["Custom", {
+                    create:function(component) {
+                        return $("<input value='0;0;R'>");
+                    },
+                    location:0.7,
+                    id:"customOverlay"
+                }],
+                [ "Arrow", {
+                    location: 1,
+                    id: "arrow",
+                    length: 14,
+                    foldback: 0.8
+                } ]
+            ],
+            anchor: "Continuous",
+            connector: [ "StateMachine", { curviness: 30 } ]
         });
+
+        //conn.setLabel("abacaxi");
     };
 
     return pub;

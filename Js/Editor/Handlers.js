@@ -14,14 +14,16 @@ $(document).ready(function () {
         $(".node").removeClass("selectedNode");
     });
 
-    $(".saveData").click(function () {
-        Database.saveRelationshipTable(Relationship.getRelationshipTable());
+    $(".executeMachine").click(function () {
+        var machine = Relationship.getMachine();
+
+        $.post("/turingMachine/Controller/executeMachine.php", machine, function (data) {
+            showOutputData(data);
+        })
     });
 
-    $(".doBreathSearch").click(function () {
-        var result = BreadthSearch.execute(Relationship.getRelationshipTable(), 0);
-
-        Output.showBreathSearch(result);
-    })
-
+    function showOutputData(data){
+        $(".output").val(data);
+        $(".output").show();
+    }
 });

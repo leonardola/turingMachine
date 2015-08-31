@@ -10,7 +10,7 @@ include('TuringMachine.php');
 
 header('Content-Type: application/json');
 
-$tableData = $_POST['table'];
+$tableData = $_POST['states'];
 $tape = $_POST['tape'];
 $firstState = $_POST['firstState'];
 $lastState = $_POST['lastState'];
