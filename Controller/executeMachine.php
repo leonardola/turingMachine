@@ -10,6 +10,8 @@ include('TuringMachine.php');
 
 header('Content-Type: application/json');
 
+set_time_limit(1000000);
+
 $tableData = $_POST['states'];
 $tape = $_POST['tape'];
 $firstState = $_POST['firstState'];

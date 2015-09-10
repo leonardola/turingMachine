@@ -10,23 +10,29 @@ class TuringMachine {
 
     private $turingMachine, $tape, $firstState, $tapePointer, $actualState, $lastState;
 
+    private $tapeBegin, $tapeEnd;
 
-    public function __construct($turingMachine, $tape, $firstState, $lastState){
+    public function __construct($turingMachine, $tape, $firstState, $lastState) {
         $this->turingMachine = $turingMachine;
         $this->tape = $tape;
         $this->firstState = $firstState;
         $this->lastState = $lastState;
+        $this->tapeBegin = 0;
     }
 
-    public function execute(){
+    public function execute() {
 
         $this->validateMachine();
         $this->startMachine();
 
-        while(true){
+        $iterations = 0;
+
+        while (true) {
+            $iterations++;
+
             $read = $this->readTape();
 
-            if($this->shouldHalt($read)){
+            if ($this->shouldHalt($read)) {
                 break;
             }
 
@@ -36,45 +42,45 @@ class TuringMachine {
             $this->gotToNextState($stateInfo);
         }
 
-        return $this->tape; //implode("",$this->tape);
+        return $this->getTapeAsString();
     }
 
-    private function validateMachine(){
-        if(empty($this->turingMachine)){
+    private function validateMachine() {
+        if (empty($this->turingMachine)) {
             throw new \Exception("Machine not found");
         }
-        if(empty($this->tape) && !isset($this->tape)){
+        if (empty($this->tape) && !isset($this->tape)) {
             throw new \Exception("Machine does not contain tape");
         }
-        if(empty($this->firstState) && $this->firstState !== "0"){
+        if (empty($this->firstState) && $this->firstState !== "0") {
             throw new \Exception("Machine does not contain first state");
         }
-        if(empty($this->lastState) && $this->lastState !== "0"){
+        if (empty($this->lastState) && $this->lastState !== "0") {
             throw new \Exception("Machine does not contain last state");
         }
     }
 
-    private function readTape(){
+    private function readTape() {
 
-        if($this->isEndOfTape()){
+        if ($this->isEndOfTape()) {
             return "$";
         }
 
         return $this->tape[$this->tapePointer];
     }
 
-    private function isEndOfTape(){
+    private function isEndOfTape() {
         return !isset($this->tape[$this->tapePointer]) || ((empty($this->tape[$this->tapePointer]) && $this->tape[$this->tapePointer] !== "0"));
     }
 
-    private function shouldHalt($read){
+    private function shouldHalt($read) {
 
         $data = $this->getPossibleReadForActualState();
 
-        if(!isset($data[$read])){
-            if($this->actualState == $this->lastState){
+        if (!isset($data[$read])) {
+            if ($this->actualState == $this->lastState) {
                 return true;
-            }else{
+            } else {
                 throw new \Exception("Machine did not halt on end state");
             }
         }
@@ -82,42 +88,58 @@ class TuringMachine {
         return false;
     }
 
-    private function startMachine(){
+    private function startMachine() {
         $this->tapePointer = 0;
         $this->actualState = $this->firstState;
     }
 
-    private function tryToGetInfoFromState($read){
+    private function tryToGetInfoFromState($read) {
         $stateInfo = $this->getPossibleReadForActualState()[$read];
 
-        if(!$stateInfo){
+        if (!$stateInfo) {
             throw new \Exception("Machine does not contain state");
         }
 
         return $stateInfo;
     }
 
-    private function writeOnTape($stateInfo){
-        $this->tape[$this->tapePointer] = $stateInfo['write'];
-    }
-
-    private function gotToNextState($stateInfo){
-        $this->actualState = $stateInfo['nextState'];
-        $this->changeTapePointer($stateInfo['goTo']);
-    }
-
-    private function changeTapePointer($goTo){
-        if($goTo == 'right'){
-            $this->tapePointer++;
-        }elseif($goTo == 'left'){
-            $this->tapePointer--;
-        }
-    }
-
-    private function getPossibleReadForActualState(){
-        if(isset($this->turingMachine['actualState'][$this->actualState])){
+    private function getPossibleReadForActualState() {
+        if (isset($this->turingMachine['actualState'][$this->actualState])) {
             return $this->turingMachine['actualState'][$this->actualState]['read'];
         }
         return array();
     }
+
+    private function writeOnTape($stateInfo) {
+        $this->tape[$this->tapePointer] = $stateInfo['write'];
+    }
+
+    private function gotToNextState($stateInfo) {
+        $this->actualState = $stateInfo['nextState'];
+        $this->changeTapePointer($stateInfo['goTo']);
+    }
+
+    private function changeTapePointer($goTo) {
+        if ($goTo == 'right') {
+            $this->tapePointer++;
+            if ($this->tapePointer > $this->tapeEnd) {
+                $this->tapeEnd = $this->tapePointer;
+            }
+        } elseif ($goTo == 'left') {
+            $this->tapePointer--;
+            if ($this->tapePointer < $this->tapeBegin) {
+                $this->tapeBegin = $this->tapePointer;
+            }
+        }
+    }
+
+    private function getTapeAsString() {
+        if (is_array($this->tape)) {
+            ksort($this->tape);
+            return implode("", $this->tape);
+        } else {
+            return $this->tape;
+        }
+    }
+
 }
