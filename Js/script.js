@@ -9,14 +9,25 @@ $(document).ready(function () {
 
     $("#execute").click(function () {
 
-        TuringMachine.executeMachine();
+        var data = TuringMachine.executeMachine();
 
-        /*var turingMachine = TuringMachine.getTuringMachine();
+        showOutputData(data);
 
-        $.post("/turingMachine/Controller/executeMachine.php", turingMachine, function (data) {
-            showOutputData(data);
-        })*/
-            
+    });
+
+    $("#executePredefinedMachine").click(function () {
+
+        var predefinedMachine = $("#predefinedMachines").val();
+
+        if(predefinedMachine == '4'){
+            var machine = PredefinedMachines.getMachineFour();
+        }else if(predefinedMachine == '5'){
+            var machine = PredefinedMachines.getMachineFive();
+        }
+
+        var data = TuringMachine.executeMachine(machine);
+
+        showOutputData(data);
     });
 
     $(document).keydown(function (event) {

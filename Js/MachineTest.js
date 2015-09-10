@@ -50,7 +50,7 @@ var MachineTest = (function (pub) {
         }
 
 
-        return tape;
+        return tape.join('');
     };
 
     return pub;
