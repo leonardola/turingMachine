@@ -28,8 +28,6 @@ class TuringMachine {
         $iterations = 0;
 
         while (true) {
-            $iterations++;
-
             $read = $this->readTape();
 
             if ($this->shouldHalt($read)) {
@@ -60,6 +58,11 @@ class TuringMachine {
         }
     }
 
+    private function startMachine() {
+        $this->tapePointer = 0;
+        $this->actualState = $this->firstState;
+    }
+
     private function readTape() {
 
         if ($this->isEndOfTape()) {
@@ -86,11 +89,6 @@ class TuringMachine {
         }
 
         return false;
-    }
-
-    private function startMachine() {
-        $this->tapePointer = 0;
-        $this->actualState = $this->firstState;
     }
 
     private function tryToGetInfoFromState($read) {

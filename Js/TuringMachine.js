@@ -1,5 +1,16 @@
 var TuringMachine = (function (pub) {
 
+    pub.executeMachine = function () {
+        //var machine = this.getTuringMachine();
+
+        var machine = PredefinedMachines.getMachineFive();
+
+        var formattedMachine = MachineFormatter.format(machine);
+
+        console.log(MachineTest.run(formattedMachine, machine['firstState'], machine['lastState'],""));
+    };
+
+
     pub.getTuringMachine = function(){
         turingMachine = {};
 

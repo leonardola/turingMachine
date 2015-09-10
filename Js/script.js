@@ -9,11 +9,13 @@ $(document).ready(function () {
 
     $("#execute").click(function () {
 
-        var turingMachine = TuringMachine.getTuringMachine();
+        TuringMachine.executeMachine();
+
+        /*var turingMachine = TuringMachine.getTuringMachine();
 
         $.post("/turingMachine/Controller/executeMachine.php", turingMachine, function (data) {
             showOutputData(data);
-        })
+        })*/
             
     });
 
