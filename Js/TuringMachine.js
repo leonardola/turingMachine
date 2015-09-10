@@ -4,11 +4,11 @@ var TuringMachine = (function (pub) {
 
         var formattedMachine = MachineFormatter.format(machine);
 
-        return MachineTest.run(formattedMachine, machine['firstState'], machine['lastState'],"");
+        return MachineTest.run(formattedMachine, machine.firstState, machine.lastState,machine.tape);
     };
 
 
-    pub.getTuringMachine = function(){
+    pub.getTuringMachineFromTable = function(){
         turingMachine = {};
 
         turingMachine.states = Table.getData();

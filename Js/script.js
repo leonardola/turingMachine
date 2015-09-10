@@ -9,7 +9,10 @@ $(document).ready(function () {
 
     $("#execute").click(function () {
 
-        var data = TuringMachine.executeMachine();
+
+        var machine = TuringMachine.getTuringMachineFromTable();
+
+        var data = TuringMachine.executeMachine(machine);
 
         showOutputData(data);
 
