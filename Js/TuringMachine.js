@@ -4,35 +4,63 @@ var TuringMachine = (function (pub) {
 
         var formattedMachine = MachineFormatter.format(machine);
 
-        return MachineTest.run(formattedMachine, machine.firstState, machine.lastState,machine.tape);
+        return run(formattedMachine, machine.firstState, machine.lastState,machine.tape);
     };
 
+    function run(machine, firstState, lastState, tape) {
+        tape = tape.split('');
 
-    pub.getTuringMachineFromTable = function(){
-        turingMachine = {};
+        var tapePointer = 0;
+        var actualState = firstState;
 
-        turingMachine.states = Table.getData();
-        turingMachine.language = getAlphabet();
-        turingMachine.tape = getTape();
-        turingMachine.firstState = getFirstState();
-        turingMachine.lastState = getLastState();
+        var read = "";
+        var stateInfo = [];
 
-        return turingMachine;
-    };
+        while (true) {
 
-    function getAlphabet(){
-        return $("#alphabet").val();
-    }
-    function getTape(){
-        return $("#tape").val();
-    }
+            read = tape[tapePointer];
 
-    function getFirstState(){
-        return $("#firstState").val();
-    }
+            if(read == undefined){
+                read = "$";
+            }
 
-    function getLastState(){
-        return $("#lastState").val();
+            stateInfo = machine[actualState][read];
+
+            //verify if there is nowhere to go then halt
+            if(!stateInfo){
+                if(actualState == lastState){
+                    break;
+                }else{
+                    throw new Error("Machine did not halt on last state");
+                }
+            }
+
+            if(tapePointer < 0){
+                tape.unshift(stateInfo['write']);
+                tapePointer = 0;
+            }else{
+                tape[tapePointer] = stateInfo['write'];
+            }
+
+            actualState = stateInfo['nextState'];
+
+
+            if(stateInfo['goTo'] == 'right'){
+                tapePointer++;
+            }else{
+                tapePointer--;
+            }
+        }
+
+        //return tape.join('');
+
+        var returnTape = "";
+
+        for(var i = 0; i < tape.length; i++){
+            returnTape += tape[i];
+        }
+
+        return returnTape;
     }
 
     return pub;

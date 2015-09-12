@@ -9,9 +9,7 @@ $(document).ready(function () {
 
     $("#execute").click(function () {
 
-
-        var machine = TuringMachine.getTuringMachineFromTable();
-
+        var machine = TuringMachineTable.getTuringMachineFromTable();
         var data = TuringMachine.executeMachine(machine);
 
         showOutputData(data);
@@ -33,6 +31,11 @@ $(document).ready(function () {
         showOutputData(data);
     });
 
+    function showOutputData(data){
+        $(".output").val(data);
+        $(".output").show();
+    }
+
     $(document).keydown(function (event) {
         var activeElement = $(document.activeElement).first();
         var lastInput = $("input[name='nextState']").last();
@@ -42,9 +45,4 @@ $(document).ready(function () {
             Table.addRow();
         }
     });
-
-    function showOutputData(data){
-        $(".output").val(data);
-        $(".output").show();
-    }
 });

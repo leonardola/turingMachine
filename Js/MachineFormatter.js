@@ -6,13 +6,13 @@ var MachineFormatter = (function (pub) {
 
     pub.format = function (machineTable) {
 
-        var turingMachine = {};
+        var turingMachine = [];
 
         for(var row in machineTable['states']){
             var card = machineTable['states'][row];
             var actualState = card['actualState'];
 
-            turingMachine[actualState] = turingMachine[actualState] || {};
+            turingMachine[actualState] = turingMachine[actualState] || [];
             turingMachine[actualState][card['read']] = card;
 
         }
