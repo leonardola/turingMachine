@@ -14,3 +14,9 @@ If you wanna learn go for the master branch I tried to make it the most clean an
 - Execute in your browser localhost/turingMachine/Views/home.html
 - Now select one predefined machines or enter your own
 - Click execute
+
+## Editor
+- If you want to use a graphical editor access localhost/turingMachine/Views/editor.html
+- Click the + button to add states
+- First click the two states
+- Change the data inside the input it is formated as Read;Write;Goto
