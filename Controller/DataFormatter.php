@@ -9,18 +9,15 @@
 class DataFormatter {
 
     public static function getTuringMachineFromTableData($tableData){
-        $turingMachine = array(
-            'actualState' => array()
-        );
+        $turingMachine = array();
 
         foreach($tableData as $row){
             $actualState = $row['actualState'];
 
-            self::createArrayIndex($turingMachine['actualState'],$actualState);
-            self::createArrayIndex($turingMachine['actualState'][$actualState],'read');
-            self::createArrayIndex($turingMachine['actualState'][$actualState]['read'],$row['read']);
+            self::createArrayIndex($turingMachine,$actualState);
+            self::createArrayIndex($turingMachine[$actualState],$row['read']);
 
-            $turingMachine['actualState'][$actualState]['read'][$row['read']] = $row;
+            $turingMachine[$actualState][$row['read']] = $row;
         }
 
         return $turingMachine;

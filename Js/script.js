@@ -9,13 +9,11 @@ $(document).ready(function () {
 
     $("#execute").click(function () {
 
-
         var machine = TuringMachine.getTuringMachineFromTable();
-
-        var data = TuringMachine.executeMachine(machine);
-
-        showOutputData(data);
-
+        //var data = TuringMachine.executeMachine(machine);
+        $.post("../Controller/executeMachine.php",machine, function (data) {
+            showOutputData(data.tape);
+        });
     });
 
     $("#executePredefinedMachine").click(function () {
@@ -28,9 +26,11 @@ $(document).ready(function () {
             var machine = PredefinedMachines.getMachineFive();
         }
 
-        var data = TuringMachine.executeMachine(machine);
+        //var data = TuringMachine.executeMachine(machine);
 
-        showOutputData(data);
+        $.post("../Controller/executeMachine.php",machine, function (data) {
+            showOutputData(data.tape);
+        });
     });
 
     $(document).keydown(function (event) {
