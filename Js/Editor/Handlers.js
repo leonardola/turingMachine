@@ -16,10 +16,9 @@ $(document).ready(function () {
 
     $(".executeMachine").click(function () {
         var machine = Relationship.getMachine();
+        var data = TuringMachine.executeMachine(machine);
 
-        $.post("/turingMachine/Controller/executeMachine.php", machine, function (data) {
-            showOutputData(data);
-        })
+        showOutputData(data);
     });
 
     function showOutputData(data){
