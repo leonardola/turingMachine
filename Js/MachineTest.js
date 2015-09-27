@@ -9,7 +9,7 @@ var MachineTest = (function (pub) {
         var tapePointer = 0;
         var actualState = firstState;
 
-        while (true) {
+        while(true) {
 
             var read = "";
 

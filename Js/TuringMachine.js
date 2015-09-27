@@ -2,7 +2,7 @@ var TuringMachine = (function (pub) {
 
     pub.executeMachine = function (machine) {
 
-        var formattedMachine = MachineFormatter.format(machine);
+        var formattedMachine = MachineFormatter.format(machine.states);
 
         return MachineTest.run(formattedMachine, machine.firstState, machine.lastState,machine.tape);
     };
