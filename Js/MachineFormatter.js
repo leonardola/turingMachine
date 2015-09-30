@@ -5,7 +5,7 @@
 var MachineFormatter = (function (pub) {
 
     pub.format = function (machineTable) {
-        
+
         var groupedCards = groupCardsByState(machineTable);
 
         return groupCardByTransition(groupedCards);
@@ -45,11 +45,11 @@ var MachineFormatter = (function (pub) {
                 if(!actualStateInfo.hasOwnProperty(nextState)){    continue;   }
 
                 var transition = actualStateInfo[nextState];
-                var concated = getConcatedReadAndWrite(transition);
+                var concatedRead = getConcatedReadAndWrite(transition);
 
                 transitions[actualState] = transitions[actualState] || [];
-                transitions[actualState][concated.read] = transitions[actualState][concated.read] || [];
-                transitions[actualState][concated.read][concated.write] = transition;
+                transitions[actualState][concatedRead] = transitions[actualState][concatedRead] || [];
+                transitions[actualState][concatedRead] = transition;
 
             }
 
@@ -60,7 +60,6 @@ var MachineFormatter = (function (pub) {
 
     function getConcatedReadAndWrite(transition){
         var concatedRead = "";
-        var concatedWrite = "";
 
         for(var tape in transition){
             if(!transition.hasOwnProperty(tape)){  continue;   }
@@ -68,13 +67,9 @@ var MachineFormatter = (function (pub) {
             var oneTapeTransition = transition[tape];
 
             concatedRead += oneTapeTransition['read'];
-            concatedWrite += oneTapeTransition['write'];
         }
 
-        return{
-            read: concatedRead,
-            write: concatedWrite
-        };
+        return concatedRead;
     }
 
     return pub;

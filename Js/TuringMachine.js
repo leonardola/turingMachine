@@ -1,10 +1,10 @@
 var TuringMachine = (function (pub) {
 
-    pub.executeMachine = function (machine) {
+    pub.executeMachine = function (machineTable) {
 
-        var formattedMachine = MachineFormatter.format(machine.states);
+        var formattedMachine = MachineFormatter.format(machineTable.states);
 
-        return MachineTest.run(formattedMachine, machine.firstState, machine.lastState,machine.tape);
+        return MachineTest.run(formattedMachine, machineTable);
     };
 
 
@@ -13,18 +13,30 @@ var TuringMachine = (function (pub) {
 
         turingMachine.states = Table.getData();
         turingMachine.language = getAlphabet();
-        turingMachine.tape = getTape();
+        turingMachine.tapes = getTapes();
         turingMachine.firstState = getFirstState();
         turingMachine.lastState = getLastState();
+        turingMachine.numberOfTapes = getNumberOfTapes();
 
+        console.log(turingMachine);
         return turingMachine;
     };
 
     function getAlphabet(){
         return $("#alphabet").val();
     }
-    function getTape(){
-        return $("#tape").val();
+    function getTapes(){
+
+        var tapes = {};
+
+        $(".tape").each(function () {
+            var tapeNumber = $(this).attr("number");
+
+            tapes[tapeNumber] = $(this).val();
+        });
+
+        return tapes;
+
     }
 
     function getFirstState(){
@@ -32,6 +44,10 @@ var TuringMachine = (function (pub) {
     }
 
     function getLastState(){
+        return $("#lastState").val();
+    }
+
+    function getNumberOfTapes(){
         return $("#lastState").val();
     }
 

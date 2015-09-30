@@ -4,22 +4,15 @@
 
 var MachineTest = (function (pub) {
 
-    pub.run = function (machine, firstState, lastState, tape) {
-        tape = tape.split('');
-        var tapePointer = 0;
-        var actualState = firstState;
+    pub.run = function (machine, info) {
+        var tapes = prepareTapes(info.tapes);
+        var pointers = loadPointers(tapes);
+        var actualState = info.firstState;
+        var lastState = info.lastState;
 
         while(true) {
 
-            var read = "";
-
-            //read the tape
-            if(!tape[tapePointer] && tape[tapePointer] !== 0 ){
-                read = "$";
-            }else{
-                read = tape[tapePointer];
-            }
-
+            var read = readTapes(tapes, pointers);
             var stateInfo = machine[actualState][read];
 
             //verify if there is nowhere to go then halt
@@ -30,28 +23,76 @@ var MachineTest = (function (pub) {
                     throw new Error("Machine did not halt on last state");
                 }
             }
-
-            if(tapePointer < 0){
-                tape.unshift(stateInfo['write']);
-                tapePointer = 0;
-            }else{
-                tape[tapePointer] = stateInfo['write'];
-            }
-
-            actualState = stateInfo['nextState'];
-
-
-            if(stateInfo['goTo'] == 'right'){
-                tapePointer++;
-            }else{
-                tapePointer--;
-            }
-
+            actualState = stateInfo.slice(-1).pop()['nextState'];
+            tapes = writeOnTapes(tapes, stateInfo, pointers);
+            pointers = moveTapes(tapes, stateInfo, pointers);
         }
 
 
-        return tape.join('');
+        return tapes;
     };
 
+    function prepareTapes(tapes){
+        for(var i in tapes){
+            tapes[i] = tapes[i].split('');
+        }
+
+        return tapes;
+    }
+
+    function loadPointers(tapes){
+        var pointers = [];
+
+        for(var i in tapes){
+            pointers[i] = 0;
+        }
+
+        return pointers;
+    }
+
+    function readTapes(tapes, tapesPointer){
+        var read = "";
+
+        for(var i in tapes){
+            if(!tapes[i][tapesPointer[i]] && tapes[i][tapesPointer[i]] !== 0 ){
+                read += "$";
+            }else{
+                read += tapes[i][tapesPointer[i]];
+            }
+        }
+
+        return read;
+    }
+
+
+    function writeOnTapes(tapes, stateInfo, pointers){
+        for(var i in tapes){
+
+            if(pointers[i] < 0){
+                tapes[i].unshift(stateInfo[i]['write']);
+                pointers[i] = 0;
+            }else{
+                tapes[i][pointers[i]] = stateInfo[i]['write'];
+            }
+
+        }
+        return tapes;
+    }
+
+    function moveTapes(tapes, stateInfo, pointers){
+
+        for(var i in tapes){
+            if(stateInfo[i]['goTo'] == 'right'){
+                pointers[i]++;
+            }else{
+                pointers[i]--;
+            }
+        }
+
+        //actualState = stateInfo['nextState'];
+        
+        return pointers;
+
+    }
     return pub;
 })(MachineTest || {});

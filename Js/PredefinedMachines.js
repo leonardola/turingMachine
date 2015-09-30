@@ -54,5 +54,17 @@ var PredefinedMachines = (function (pub) {
         };
     };
 
+    pub.getDoubleTapeMachine = function () {
+        return {
+            states:[
+                {tapeNumber:"1",actualState:"1",read:"1",write:"$",nextState:"2",goTo:"right"},
+                {tapeNumber:"2",actualState:"1",read:"$",write:"1",nextState:"2",goTo:"right"},
+                {tapeNumber:"1",actualState:"2",read:"0",write:"$",nextState:"1",goTo:"right"},
+                {tapeNumber:"2",actualState:"2",read:"$",write:"0",nextState:"1",goTo:"right"}
+            ],
+            language:"",tapes:{1:"101",2:""},firstState:"1",lastState:"2",numberOfTapes:"2"
+        }
+    };
+
     return pub;
 })(PredefinedMachines || {});
