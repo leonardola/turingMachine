@@ -23,10 +23,12 @@ var MachineFormatter = (function (pub) {
             var actualState = card['actualState'];
             var nextState = card['nextState'];
             var tapeNumber = card['tapeNumber'];
+            var transitionNumber = card['transition'];
 
             groupedCards[actualState] = groupedCards[actualState] || [];
             groupedCards[actualState][nextState] = groupedCards[actualState][nextState] || [];
-            groupedCards[actualState][nextState][tapeNumber] = card;
+            groupedCards[actualState][nextState][transitionNumber] = groupedCards[actualState][nextState][transitionNumber] || [];
+            groupedCards[actualState][nextState][transitionNumber][tapeNumber] = card;
         }
 
         return groupedCards;
@@ -43,14 +45,20 @@ var MachineFormatter = (function (pub) {
 
             for(var nextState in actualStateInfo){
                 if(!actualStateInfo.hasOwnProperty(nextState)){    continue;   }
+                var stateData = actualStateInfo[nextState];
 
-                var transition = actualStateInfo[nextState];
-                var concatedRead = getConcatedReadAndWrite(transition);
+                for(var i in stateData) {
+                    if (!stateData.hasOwnProperty(i)) {
+                        continue;
+                    }
+                    var transition = stateData[i];
 
-                transitions[actualState] = transitions[actualState] || [];
-                transitions[actualState][concatedRead] = transitions[actualState][concatedRead] || [];
-                transitions[actualState][concatedRead] = transition;
+                    var concatedRead = getConcatedReadAndWrite(transition);
 
+                    transitions[actualState] = transitions[actualState] || [];
+                    transitions[actualState][concatedRead] = transitions[actualState][concatedRead] || [];
+                    transitions[actualState][concatedRead] = transition;
+                }
             }
 
         }

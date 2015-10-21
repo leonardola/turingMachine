@@ -4,7 +4,10 @@ $(document).ready(function () {
     });
 
     $("#removeRow").click(function () {
-        $("#inputTable").find("tr").last().remove();
+
+        var lastTransitionNumber = Table.getLastTransitionNumber();
+
+        $("#inputTable").find(".transitionNumber[value="+lastTransitionNumber+"]").closest("tr").remove();
     });
 
     $("#execute").click(function () {
@@ -26,7 +29,10 @@ $(document).ready(function () {
             +'<input class="tape" number="'+i+'">'
         }
 
+        $(this).nextAll().remove();
+
         $(this).after("<br><br>" +html);
+        Table.addRow();
 
     });
 
@@ -39,7 +45,9 @@ $(document).ready(function () {
         }else if(predefinedMachine == '5'){
             var machine = PredefinedMachines.getMachineFive();
         }else if(predefinedMachine == 'double'){
-            var machine = PredefinedMachines.getDoubleTapeMachine()
+            var machine = PredefinedMachines.getDoubleTapeMachine();
+        }else if(predefinedMachine == 'multiply'){
+            var machine = PredefinedMachines.getMultiplyMachine();
         }
 
         var data = TuringMachine.executeMachine(machine);

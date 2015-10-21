@@ -66,5 +66,31 @@ var PredefinedMachines = (function (pub) {
         }
     };
 
+    pub.getMultiplyMachine = function () {
+        return {
+            states:[
+                {transition:"0",tapeNumber:"1",actualState:"0",read:"*",write:"*",nextState:"1",goTo:"right"},
+                {transition:"0",tapeNumber:"2",actualState:"0",read:"$",write:"$",nextState:"1",goTo:"stay"},
+                {transition:"1",tapeNumber:"1",actualState:"1",read:"1",write:"1",nextState:"1",goTo:"right"},
+                {transition:"1",tapeNumber:"2",actualState:"1",read:"$",write:"$",nextState:"1",goTo:"stay"},
+                {transition:"2",tapeNumber:"1",actualState:"1",read:"0",write:"0",nextState:"2",goTo:"right"},
+                {transition:"2",tapeNumber:"2",actualState:"1",read:"$",write:"$",nextState:"2",goTo:"stay"},
+                {transition:"3",tapeNumber:"1",actualState:"2",read:"0",write:"0",nextState:"2",goTo:"right"},
+                {transition:"3",tapeNumber:"2",actualState:"2",read:"$",write:"$",nextState:"2",goTo:"stay"},
+                {transition:"4",tapeNumber:"1",actualState:"2",read:"$",write:"$",nextState:"3",goTo:"right"},
+                {transition:"4",tapeNumber:"2",actualState:"2",read:"$",write:"$",nextState:"3",goTo:"right"},
+                {transition:"5",tapeNumber:"1",actualState:"2",read:"1",write:"0",nextState:"4",goTo:"left"},
+                {transition:"5",tapeNumber:"2",actualState:"2",read:"$",write:"$",nextState:"4",goTo:"stay"},
+                {transition:"6",tapeNumber:"1",actualState:"4",read:"0",write:"0",nextState:"4",goTo:"left"},
+                {transition:"6",tapeNumber:"2",actualState:"4",read:"$",write:"$",nextState:"4",goTo:"stay"},
+                {transition:"7",tapeNumber:"1",actualState:"4",read:"1",write:"1",nextState:"4",goTo:"left"},
+                {transition:"7",tapeNumber:"2",actualState:"4",read:"$",write:"1",nextState:"4",goTo:"right"},
+                {transition:"8",tapeNumber:"1",actualState:"4",read:"*",write:"*",nextState:"1",goTo:"right"},
+                {transition:"8",tapeNumber:"2",actualState:"4",read:"$",write:"$",nextState:"1",goTo:"stay"}
+            ],
+                language:"",tapes:{"1":"*11011","2":""},firstState:"0",lastState:"3",numberOfTapes:"2"
+        }
+    };
+
     return pub;
 })(PredefinedMachines || {});

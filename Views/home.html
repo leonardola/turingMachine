@@ -19,6 +19,7 @@
 
     <select id="predefinedMachines">
         <option value="double">Double tape</option>
+        <option value="multiply">Multiply</option>
         <option value="4">Machine Four</option>
         <option value="5">Machine Five</option>
     </select>
@@ -27,6 +28,12 @@
 
     <br>
     <br>
+
+    <div>
+        <lable>Numero de fitas</lable>
+        <input id="numberOfTapes"><br><br>
+    </div>
+
     <br>
         <table id="inputTable">
             <tr>
@@ -50,24 +57,13 @@
                 </th>
             </tr>
             <tr>
-                <td><input name="tapeNumber"></td>
-                <td><input name="actualState"></td>
-                <td><input name="read"></td>
-                <td><input name="write"></td>
-                <td><select name="goTo">
-                    <option value="right">Direita</option>
-                    <option value="left">Esquerda</option>
-                    <option value="stay">Não movimenta</option>
-                </select></td>
-                <td><input name="nextState"></td>
+
             </tr>
         </table>
         <button id="removeRow">Remover</button>
         <button id="addRow">Adicionar</button>
         <br>
         <br>
-        <lable>Numero de fitas</lable>
-        <input id="numberOfTapes"><br><br>
         <lable>Primeiro estado</lable>
         <input id="firstState">
         <lable>Ultimo estado</lable>

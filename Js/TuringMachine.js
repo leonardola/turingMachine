@@ -48,7 +48,7 @@ var TuringMachine = (function (pub) {
     }
 
     function getNumberOfTapes(){
-        return $("#lastState").val();
+        return $("#numberOfTapes").val();
     }
 
     return pub;

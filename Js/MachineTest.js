@@ -13,16 +13,22 @@ var MachineTest = (function (pub) {
         while(true) {
 
             var read = readTapes(tapes, pointers);
-            var stateInfo = machine[actualState][read];
 
-            //verify if there is nowhere to go then halt
-            if(!stateInfo){
-                if(actualState == lastState){
-                    break;
-                }else{
-                    throw new Error("Machine did not halt on last state");
+            try{
+                var stateInfo = machine[actualState][read];
+            }catch(e){
+
+            }finally{
+                //verify if there is nowhere to go then halt
+                if(!stateInfo){
+                    if(actualState == lastState){
+                        break;
+                    }else{
+                        throw new Error("Machine did not halt on last state");
+                    }
                 }
             }
+
             actualState = stateInfo.slice(-1).pop()['nextState'];
             tapes = writeOnTapes(tapes, stateInfo, pointers);
             pointers = moveTapes(tapes, stateInfo, pointers);
@@ -84,7 +90,7 @@ var MachineTest = (function (pub) {
         for(var i in tapes){
             if(stateInfo[i]['goTo'] == 'right'){
                 pointers[i]++;
-            }else{
+            }else if(stateInfo[i]['goTo'] == 'left'){
                 pointers[i]--;
             }
         }
