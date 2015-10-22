@@ -17,14 +17,14 @@ var MachineTest = (function (pub) {
             try{
                 var stateInfo = machine[actualState][read];
             }catch(e){
-
+                if(shouldHalt(actualState, lastState)){
+                    break;
+                }
             }finally{
                 //verify if there is nowhere to go then halt
                 if(!stateInfo){
-                    if(actualState == lastState){
+                    if(shouldHalt(actualState, lastState)){
                         break;
-                    }else{
-                        throw new Error("Machine did not halt on last state");
                     }
                 }
             }
@@ -68,6 +68,14 @@ var MachineTest = (function (pub) {
         }
 
         return read;
+    }
+
+    function shouldHalt(actualState, lastState){
+        if(actualState == lastState){
+            return true;
+        }else{
+            throw new Error("Machine did not halt on last state");
+        }
     }
 
 
